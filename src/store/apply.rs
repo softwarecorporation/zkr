@@ -161,10 +161,10 @@ fn apply_commit(
             .enumerate()
         {
             if pass == ORIGIN_PASS {
-                if let ExportRecord::Source(record) = record {
-                    if accepted[index] {
-                        apply_source_origin(transaction, record)?;
-                    }
+                if let ExportRecord::Source(record) = record
+                    && accepted[index]
+                {
+                    apply_source_origin(transaction, record)?;
                 }
                 continue;
             }

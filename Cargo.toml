@@ -2,21 +2,21 @@
 name = "zkr"
 version = "0.5.1"
 edition = "2024"
-rust-version = "1.85"
+rust-version = "1.89"
 description = "Evidence-backed temporal memory for personal agents"
 repository = "https://github.com/tschk/zkr"
 license = "ISC"
 exclude = ["plugins/"]
 
 [dependencies]
-rusqlite = { version = "0.37", features = ["bundled"] }
+rusqlite = { version = "0.41", features = ["bundled", "fallible_uint"] }
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 sha2 = "0.10"
 thiserror = "2"
 
 [dev-dependencies]
-rusqlite = "0.37"
+rusqlite = "0.41"
 serde_json = "1"
 tempfile = "3"
 

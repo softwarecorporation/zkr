@@ -645,12 +645,10 @@ impl MemoryDb {
                 let is_in_frontier = frontier
                     .iter()
                     .any(|id| fact_matches_node(fact, subject, id));
-                if is_in_frontier {
-                    if let Some(rec) = &fact.record {
-                        for conn in &rec.connections {
-                            outgoing_targets.insert(conn.target.clone());
-                            next_frontier.insert(conn.target.clone());
-                        }
+                if is_in_frontier && let Some(rec) = &fact.record {
+                    for conn in &rec.connections {
+                        outgoing_targets.insert(conn.target.clone());
+                        next_frontier.insert(conn.target.clone());
                     }
                 }
             }
@@ -694,23 +692,23 @@ impl MemoryDb {
 
         let mut filtered = Vec::new();
         for (fact, subject, recorded_from, quote) in all_candidates {
-            if let Some(active) = activated_ids {
-                if !active.contains(&fact.claim_id) {
-                    continue;
-                }
+            if let Some(active) = activated_ids
+                && !active.contains(&fact.claim_id)
+            {
+                continue;
             }
-            if let Some(proj) = &input.project {
-                if &fact.project != proj {
-                    continue;
-                }
+            if let Some(proj) = &input.project
+                && &fact.project != proj
+            {
+                continue;
             }
             if !input.projects.is_empty() && !input.projects.iter().any(|p| p == &fact.project) {
                 continue;
             }
-            if let Some(cat) = &input.category {
-                if !fact.categories.iter().any(|c| c == cat) {
-                    continue;
-                }
+            if let Some(cat) = &input.category
+                && !fact.categories.iter().any(|c| c == cat)
+            {
+                continue;
             }
             if !input.categories.is_empty()
                 && !input
@@ -728,20 +726,20 @@ impl MemoryDb {
             {
                 continue;
             }
-            if let Some(pred) = &input.predicate {
-                if &fact.predicate != pred {
-                    continue;
-                }
+            if let Some(pred) = &input.predicate
+                && &fact.predicate != pred
+            {
+                continue;
             }
             if record_type_filter.is_some() || relation_filter.is_some() || target_filter.is_some()
             {
                 let Some(rec) = &fact.record else {
                     continue;
                 };
-                if let Some(rt) = record_type_filter {
-                    if rec.record_type != rt {
-                        continue;
-                    }
+                if let Some(rt) = record_type_filter
+                    && rec.record_type != rt
+                {
+                    continue;
                 }
                 let matches_connection = match (relation_filter, target_filter) {
                     (Some(rel), Some(tgt)) => rec

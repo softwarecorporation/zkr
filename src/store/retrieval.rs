@@ -114,23 +114,23 @@ impl MemoryDb {
             );
         }
 
-        if lexical.len() < candidate_limit as usize {
-            if let Some(token_query) = token_query {
-                let token_targets = self.lexical_targets(
-                    &input.tenant_id,
-                    &input.person_id,
-                    &token_query,
-                    candidate_limit,
-                    input.as_of.as_ref(),
-                    &input.enabled_features,
-                )?;
-                Self::extend_targets_with_seen(
-                    &mut lexical,
-                    &mut seen,
-                    token_targets,
-                    candidate_limit as usize,
-                );
-            }
+        if lexical.len() < candidate_limit as usize
+            && let Some(token_query) = token_query
+        {
+            let token_targets = self.lexical_targets(
+                &input.tenant_id,
+                &input.person_id,
+                &token_query,
+                candidate_limit,
+                input.as_of.as_ref(),
+                &input.enabled_features,
+            )?;
+            Self::extend_targets_with_seen(
+                &mut lexical,
+                &mut seen,
+                token_targets,
+                candidate_limit as usize,
+            );
         }
 
         if lexical.len() < candidate_limit as usize {

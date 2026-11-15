@@ -2531,15 +2531,15 @@ mod tests {
         let mut found_claim = false;
         for commit in export.commits {
             for record in commit.records {
-                if let crate::store::ExportRecord::Claim(claim) = record {
-                    if claim.predicate == "voice_card" {
-                        assert_eq!(claim.subject, "norms:engineering");
-                        assert!(claim.value.contains("v2"));
-                        assert!(claim.value.contains("register=formal"));
-                        assert!(claim.value.contains("write tests"));
-                        assert_eq!(claim.kind, crate::model::ClaimKind::ProfileFact);
-                        found_claim = true;
-                    }
+                if let crate::store::ExportRecord::Claim(claim) = record
+                    && claim.predicate == "voice_card"
+                {
+                    assert_eq!(claim.subject, "norms:engineering");
+                    assert!(claim.value.contains("v2"));
+                    assert!(claim.value.contains("register=formal"));
+                    assert!(claim.value.contains("write tests"));
+                    assert_eq!(claim.kind, crate::model::ClaimKind::ProfileFact);
+                    found_claim = true;
                 }
             }
         }
