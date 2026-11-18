@@ -4,7 +4,7 @@ version = "0.5.1"
 edition = "2024"
 rust-version = "1.89"
 description = "Evidence-backed temporal memory for personal agents"
-repository = "https://github.com/tschk/zkr"
+repository = "https://github.com/softwarecorporation/zkr"
 license = "ISC"
 exclude = ["plugins/"]
 
