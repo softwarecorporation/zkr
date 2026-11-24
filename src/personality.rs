@@ -534,18 +534,18 @@ impl Personality {
         let mut signals: Vec<SocialSignal> = Vec::new();
 
         // Response latency: time between consecutive messages from different participants.
-        if event.event_kind == "message" {
-            if let Some(prev) = self.recent_events.iter().rev().nth(1) {
-                if prev.participant != *participant && prev.event_kind == "message" {
-                    let latency = event.epoch.saturating_sub(prev.epoch);
-                    signals.push(SocialSignal {
-                        signal_kind: "response_latency".into(),
-                        participant: participant.clone(),
-                        value: format!("{}epochs", latency),
-                        epoch: event.epoch,
-                    });
-                }
-            }
+        if event.event_kind == "message"
+            && let Some(prev) = self.recent_events.iter().rev().nth(1)
+            && prev.participant != *participant
+            && prev.event_kind == "message"
+        {
+            let latency = event.epoch.saturating_sub(prev.epoch);
+            signals.push(SocialSignal {
+                signal_kind: "response_latency".into(),
+                participant: participant.clone(),
+                value: format!("{}epochs", latency),
+                epoch: event.epoch,
+            });
         }
 
         // Typing-without-send: typing event not followed by a message from same participant.
