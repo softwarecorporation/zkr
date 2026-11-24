@@ -25,21 +25,21 @@ impl MemoryDb {
         )?;
         let mut seen = HashSet::new();
         lexical.retain(|target| seen.insert(target.clone()));
-        if lexical.len() < candidate_limit as usize {
-            if let Some(token_query) = token_query {
-                for target in self.lexical_targets(
-                    &input.tenant_id,
-                    &input.person_id,
-                    &token_query,
-                    candidate_limit,
-                    input.as_of.as_ref(),
-                    &input.enabled_features,
-                )? {
-                    if seen.insert(target.clone()) {
-                        lexical.push(target);
-                        if lexical.len() >= candidate_limit as usize {
-                            break;
-                        }
+        if lexical.len() < candidate_limit as usize
+            && let Some(token_query) = token_query
+        {
+            for target in self.lexical_targets(
+                &input.tenant_id,
+                &input.person_id,
+                &token_query,
+                candidate_limit,
+                input.as_of.as_ref(),
+                &input.enabled_features,
+            )? {
+                if seen.insert(target.clone()) {
+                    lexical.push(target);
+                    if lexical.len() >= candidate_limit as usize {
+                        break;
                     }
                 }
             }
